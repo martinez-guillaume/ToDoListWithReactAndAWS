@@ -1,9 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import About from './pages/About';
+import NavigationBar from './components/Navbar';
+
 
 function App() {
   return (
-    <div className="App">
+     <Router>
+      <div>
+        <NavigationBar />
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </div>
+    </Router>
+    /*<div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -18,7 +35,8 @@ function App() {
           Learn React
         </a>
       </header>
-    </div>
+      <AddTaskButton/>
+    </div>*/
   );
 }
 
