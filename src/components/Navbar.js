@@ -12,6 +12,8 @@ const NavigationBar = () => {
           <Nav.Link as={Link} to="/">Accueil</Nav.Link>
           <Nav.Link as={Link} to="/newtask">Nouvelle tache</Nav.Link>
           <Nav.Link as={Link} to="/connexion">A propos</Nav.Link>
+          <Nav.Link as={Link} to="/register">Register</Nav.Link>
+          <Nav.Link as={Link} to="/login">Login</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

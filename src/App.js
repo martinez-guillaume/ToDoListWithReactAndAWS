@@ -1,13 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import NewTask from './pages/NewTask';
 import NavigationBar from './components/Navbar';
-
+import RegisterForm from './pages/Register';
+import LoginForm from './pages/Login';
 
 function App() {
   return (
@@ -17,6 +17,8 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/newtask" element={<NewTask />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/login" element={<LoginForm />} />
         </Routes>
       </div>
     </Router>
