@@ -10,7 +10,8 @@ const port = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/api', taskRoutes); // Toutes les routes pour les tâches doivent commencer par /api
+app.use(userRoutes);
+app.use('/api', taskRoutes); 
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);

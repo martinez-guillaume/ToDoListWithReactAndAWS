@@ -13,8 +13,10 @@ exports.getTasks = async (req, res) => {
 
   try {
     const data = await dynamoDB.scan(params).promise();
+    console.log('Data retrieved:', data);
     res.json(data.Items);
   } catch (err) {
+    console.error('Error adding task:', err); 
     res.status(500).json({ error: 'Failed to retrieve tasks' });
   }
 };
