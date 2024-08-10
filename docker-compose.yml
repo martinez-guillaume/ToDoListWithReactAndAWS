@@ -7,16 +7,20 @@ services:
       - "4566:4566" # Port pour les services LocalStack
       - "4512:4510" # Port pour les logs
     environment:
-      - DOCKER_HOST=unix:///var/run/docker.sock
+      - PERSISTENCE=true
     volumes:
-      - "${LOCALSTACK_DOCKER_VOLUME:-./volume}:/volume"
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - localstack-data:/volume  
+      - localstack-data:/var/lib/localstack
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
 volumes:
   localstack-data:
+
+
+
+
+
+
 
 
 

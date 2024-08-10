@@ -21,19 +21,46 @@ const NewTaskForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form data submitted: ', formData);
-    // Vous pouvez ajouter ici le code pour envoyer les données à votre backend
+
+    try {
+      const response = await fetch('http://localhost:3001/api/tasks', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        console.log('Task added successfully');
+        setFormData({
+          title: '',
+          description: '',
+          priority: 'Moyen',
+          date: '',
+          time: '',
+          completed: false,
+          assignee: '',
+          tags: '',
+        }); // Réinitialiser le formulaire
+      } else {
+        console.error('Failed to add task');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
 
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group className="mb-3" controlId="formBasicTitle">
-        <Form.Label>Nom de votre nouvelle tache :</Form.Label>
+        <Form.Label>Nom de votre nouvelle tâche :</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Ecrivez ici"
+          placeholder="Écrivez ici"
           name="title"
           value={formData.title}
           onChange={handleChange}
@@ -41,10 +68,10 @@ const NewTaskForm = () => {
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicDescription">
-        <Form.Label>Description de votre nouvelle tache :</Form.Label>
+        <Form.Label>Description de votre nouvelle tâche :</Form.Label>
         <Form.Control
           type="text"
-          placeholder="Ecrivez ici"
+          placeholder="Écrivez ici"
           name="description"
           value={formData.description}
           onChange={handleChange}
@@ -52,16 +79,16 @@ const NewTaskForm = () => {
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label>Priorité de votre nouvelle tache :</Form.Label>
+        <Form.Label>Priorité de votre nouvelle tâche :</Form.Label>
         <div key={`inline-radio`} className="mb-3">
           <Form.Check
             inline
-            label="Elevé"
+            label="Élevé"
             name="priority"
             type="radio"
             id={`inline-radio-1`}
-            value="Elevé"
-            checked={formData.priority === 'Elevé'}
+            value="Élevé"
+            checked={formData.priority === 'Élevé'}
             onChange={handleChange}
           />
           <Form.Check
@@ -88,7 +115,7 @@ const NewTaskForm = () => {
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicDate">
-        <Form.Label>Date de votre nouvelle tache :</Form.Label>
+        <Form.Label>Date de votre nouvelle tâche :</Form.Label>
         <Form.Control
           type="date"
           name="date"
@@ -98,7 +125,7 @@ const NewTaskForm = () => {
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicTime">
-        <Form.Label>Heure de votre nouvelle tache :</Form.Label>
+        <Form.Label>Heure de votre nouvelle tâche :</Form.Label>
         <Form.Control
           type="time"
           name="time"
@@ -137,3 +164,4 @@ const NewTaskForm = () => {
 };
 
 export default NewTaskForm;
+
