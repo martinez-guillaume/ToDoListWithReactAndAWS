@@ -26,10 +26,16 @@ const NewTaskForm = () => {
     console.log('Form data submitted: ', formData);
 
     try {
+      const token = localStorage.getItem('token'); 
+      if (!token) {
+        throw new Error('No token found');
+      }
+
       const response = await fetch('http://localhost:3001/api/tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
@@ -45,7 +51,7 @@ const NewTaskForm = () => {
           completed: false,
           assignee: '',
           tags: '',
-        }); // Réinitialiser le formulaire
+        }); 
       } else {
         console.error('Failed to add task');
       }
@@ -80,13 +86,13 @@ const NewTaskForm = () => {
 
       <Form.Group className="mb-3">
         <Form.Label>Priorité de votre nouvelle tâche :</Form.Label>
-        <div key={`inline-radio`} className="mb-3">
+        <div key={"inline-radio"} className="mb-3">
           <Form.Check
             inline
             label="Élevé"
             name="priority"
             type="radio"
-            id={`inline-radio-1`}
+            id={"inline-radio-1"}
             value="Élevé"
             checked={formData.priority === 'Élevé'}
             onChange={handleChange}
@@ -96,7 +102,7 @@ const NewTaskForm = () => {
             label="Moyen"
             name="priority"
             type="radio"
-            id={`inline-radio-2`}
+            id={"inline-radio-2"}
             value="Moyen"
             checked={formData.priority === 'Moyen'}
             onChange={handleChange}
@@ -106,7 +112,7 @@ const NewTaskForm = () => {
             label="Basse"
             name="priority"
             type="radio"
-            id={`inline-radio-3`}
+            id={"inline-radio-3"}
             value="Basse"
             checked={formData.priority === 'Basse'}
             onChange={handleChange}

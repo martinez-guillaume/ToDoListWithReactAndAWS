@@ -6,35 +6,47 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient({
   endpoint: 'http://localhost:4566' 
 });
 
-exports.getTasks = async (req, res) => {
+const getTasks = async (req, res) => {
+  const userId = req.user.id;
   const params = {
     TableName: 'Tasks',
+    FilterExpression: 'UserID = :userId',
+    ExpressionAttributeValues: {
+      ':userId': userId,
+    },
   };
 
   try {
     const data = await dynamoDB.scan(params).promise();
-    console.log('Data retrieved:', data);
-    res.json(data.Items);
+    if (data.Items && Array.isArray(data.Items)) {
+      console.log('Tasks Data:', data.Items);
+      res.json(data.Items);
+    } else {
+      console.error('Unexpected data format:', data);
+      res.status(500).json({ error: 'Unexpected data format' });
+    }
   } catch (err) {
-    console.error('Error adding task:', err); 
+    console.error('Error fetching tasks:', err);
     res.status(500).json({ error: 'Failed to retrieve tasks' });
   }
 };
 
-exports.addTask = async (req, res) => {
+
+const addTask = async (req, res) => {
   const { title, description, priority, date, time, completed, assignee, tags } = req.body;
 
   const params = {
     TableName: 'Tasks',
     Item: {
-      TaskID: uuidv4(), 
+      TaskID: uuidv4(),
       Title: title,
       Description: description,
       Priority: priority,
-      DateTime: `${date}T${time}:00Z`, // Format ISO 8601
+      DateTime: `${date}T${time}:00Z`,
       CompletionStatus: completed,
       Assignee: assignee,
-      Tags: tags.split(',').map(tag => tag.trim()), // Convertie les tags en tableau
+      Tags: tags.split(',').map(tag => tag.trim()),
+      UserID: req.user.id 
     }
   };
 
@@ -42,7 +54,9 @@ exports.addTask = async (req, res) => {
     await dynamoDB.put(params).promise();
     res.status(201).json({ message: 'Task added successfully' });
   } catch (err) {
+    console.error('Error adding task:', err);
     res.status(500).json({ error: 'Failed to add task' });
   }
 };
 
+module.exports = { getTasks, addTask };
