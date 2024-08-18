@@ -59,4 +59,90 @@ const addTask = async (req, res) => {
   }
 };
 
-module.exports = { getTasks, addTask };
+const updateTask = async (req, res) => {
+  const { id } = req.params;
+  const { title, description, priority, date, time, completed, assignee, tags } = req.body;
+
+
+
+  // Préparer les mises à jour en utilisant un alias pour DateTime, le nom de l'attribut DateTime est un mot réservé dans DynamoDB
+  const updateExpression = "SET Title = :title, Description = :description, Priority = :priority, #dt = :dateTime, CompletionStatus = :completed, Assignee = :assignee, Tags = :tags";
+  const expressionAttributeNames = {
+    "#dt": "DateTime", 
+  };
+  const expressionAttributeValues = {
+    ":title": title,
+    ":description": description,
+    ":priority": priority,
+    ":dateTime": `${date}T${time}:00Z`, 
+    ":completed": completed,
+    ":assignee": assignee,
+    ":tags": tags ? tags.split(',').map(tag => tag.trim()) : [], // Transformation des tags en tableau
+  };
+
+  const params = {
+    TableName: 'Tasks',
+    Key: { TaskID: id }, 
+    UpdateExpression: updateExpression,
+    ExpressionAttributeNames: expressionAttributeNames,
+    ExpressionAttributeValues: expressionAttributeValues,
+    ReturnValues: "UPDATED_NEW",
+  };
+
+  try {
+    await dynamoDB.update(params).promise();
+    res.status(200).json({ message: 'Task updated successfully' });
+  } catch (error) {
+    console.error("Error updating task:", error);
+    res.status(500).json({ message: 'Error updating task' });
+  }
+};
+
+
+const getTaskById = async (req, res) => {
+  const { id } = req.params;
+  console.log('Fetching task with ID:', id);
+
+  const params = {
+    TableName: 'Tasks',
+    Key: { TaskID: id },
+  };
+
+  try {
+    const data = await dynamoDB.get(params).promise();
+    if (data.Item) {
+      res.json(data.Item);
+    } else {
+      res.status(404).json({ error: 'Task not found' });
+    }
+  } catch (err) {
+    console.error('Error fetching task:', err);
+    res.status(500).json({ error: 'Failed to retrieve task' });
+  }
+};
+
+
+const deleteTask = async (req, res) => {
+  const { id } = req.params;
+  console.log(`Attempting to delete task with ID: ${id}`);
+
+  if (!id) {
+    return res.status(400).json({ error: 'Task ID is required' });
+  }
+
+  const params = {
+    TableName: 'Tasks',
+    Key: { TaskID: id }, 
+  };
+
+  try {
+    await dynamoDB.delete(params).promise();
+    res.status(200).json({ message: 'Task deleted successfully' });
+  } catch (error) {
+    console.error("Error deleting task:", error);
+    res.status(500).json({ message: 'Error deleting task' });
+  }
+};
+
+module.exports = { getTasks, addTask, updateTask, getTaskById, deleteTask };
+

@@ -1,14 +1,15 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import TaskCard from '../components/TaskCard'; 
 import Container from 'react-bootstrap/Container';
+import TaskCard from '../components/TaskCard';
+import axios from 'axios';
 
 const Home = () => {
   const { user } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-    const fetchTasks = useCallback(async () => {
+  const fetchTasks = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -17,7 +18,7 @@ const Home = () => {
 
       const response = await fetch('http://localhost:3001/api/tasks', {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -28,7 +29,7 @@ const Home = () => {
       }
 
       const data = await response.json();
-      console.log('Fetched tasks:', data); 
+      console.log('Fetched tasks:', data);
       setTasks(data);
     } catch (error) {
       console.error('Error fetching tasks:', error);
@@ -41,6 +42,23 @@ const Home = () => {
     }
   }, [user, fetchTasks]);
 
+  const handleTaskDeleted = async (taskId) => {
+    console.log('Delete button clicked for task ID:', taskId);
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`http://localhost:3001/api/tasks/${taskId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('Task deleted successfully');
+      setTasks(tasks.filter(task => task.TaskID !== taskId));
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
+  };
+
   return (
     <Container>
       <h1>Home Page</h1>
@@ -48,7 +66,7 @@ const Home = () => {
       <h2>Todo List</h2>
       <div className="d-flex flex-wrap">
         {tasks.map(task => (
-          <TaskCard key={task.TaskID} task={task} />
+          <TaskCard key={task.TaskID} task={task} onDelete={() => handleTaskDeleted(task.TaskID)} />
         ))}
       </div>
     </Container>

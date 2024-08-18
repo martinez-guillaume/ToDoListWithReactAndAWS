@@ -9,6 +9,7 @@ import RegisterForm from './pages/Register';
 import LoginForm from './pages/Login';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute'; 
+import EditTask from './pages/EditTask';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/newtask" element={<ProtectedRoute><NewTask /></ProtectedRoute>}/>
+          <Route path="/edit-task/:id" element={<ProtectedRoute><EditTask /></ProtectedRoute>} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
         </Routes>
