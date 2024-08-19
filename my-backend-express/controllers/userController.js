@@ -5,13 +5,10 @@ const docClient = require('../config/awsConfig');
 require('dotenv').config();
 
 const saltRounds = 10;
-const secret = process.env.JWT_SECRET;
 
 const register = async (req, res) => {
+
   const { username, email, password } = req.body;
-
-  console.log('Register: Received registration data:', { username, email, password });
-
   const userId = uuidv4();
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
@@ -35,9 +32,8 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
 
-  console.log('Login: Received email:', email);
+  const { email, password } = req.body;
 
   const params = {
     TableName: 'Users',
@@ -66,8 +62,15 @@ const login = async (req, res) => {
         if (!secret) {
           throw new Error('JWT_SECRET is not defined');
         }
+        
         const token = jwt.sign({ id: user.id, email: user.email }, secret, { expiresIn: '1h' });
-        res.status(200).json({ message: 'Login successful', token });
+
+        // Renvoie les détails de l'utilisateur :
+        res.status(200).json({ 
+          message: 'Login successful', 
+          token, 
+          user: { id: user.id, email: user.email, username: user.username } 
+        });
       } else {
         res.status(401).json({ message: 'Invalid email or password' });
       }
@@ -79,5 +82,6 @@ const login = async (req, res) => {
     res.status(500).json({ error: 'An error occurred during login', details: err.message });
   }
 };
+
 
 module.exports = { register, login };

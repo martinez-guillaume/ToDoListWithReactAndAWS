@@ -11,12 +11,17 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {  
     const token = localStorage.getItem('token');
     if (token) {
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+      console.log('User found in localStorage:', storedUser); 
       setIsAuthenticated(true);
-      setUser(JSON.parse(localStorage.getItem('user')));
+      setUser(storedUser);
+    } else {
+      console.log('No token found in localStorage');
     }
   }, []);
 
   const login = (token, user) => {
+    console.log('Login called with:', { token, user });
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     setIsAuthenticated(true);
