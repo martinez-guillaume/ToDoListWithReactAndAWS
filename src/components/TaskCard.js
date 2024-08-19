@@ -28,11 +28,8 @@ const TaskCard = ({ task, onDelete }) => {
 
   // Appel de la fonction onDelete passée en props
   const handleDeleteClick = () => {
-    console.log('Delete button clicked');
     if (typeof onDelete === 'function') {
       onDelete();
-    } else {
-      console.error('onDelete is not a function or is undefined');
     }
   };
 

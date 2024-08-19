@@ -8,6 +8,8 @@ const Home = () => {
   const { user } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
 
+  console.log('Current user:', user);
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const fetchTasks = useCallback(async () => {
     try {
@@ -38,6 +40,7 @@ const Home = () => {
 
   useEffect(() => {
     if (user) {
+      console.log('useEffect triggered, calling fetchTasks');
       fetchTasks();
     }
   }, [user, fetchTasks]);
