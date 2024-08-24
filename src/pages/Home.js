@@ -62,13 +62,13 @@ const Home = () => {
 
   return (
     <Container>
-      <h1>Home Page</h1>
-      <p>Welcome to the home page!</p>
-      <h2>Todo List</h2>
-      <div className="d-flex flex-wrap">
+      <h1 className="text-center py-10">Bienvenue dans Votre Espace de Tâches</h1>
+      <div className="flex justify-center pl-8 pb-10">
+      <div className="flex flex-wrap gap-4">
         {tasks.map(task => (
-          <TaskCard key={task.TaskID} task={task} onDelete={() => handleTaskDeleted(task.TaskID)} />
+          <TaskCard key={task.TaskID} task={task} onDelete={() => handleTaskDeleted(task.TaskID)}/>
         ))}
+      </div>
       </div>
     </Container>
   );
