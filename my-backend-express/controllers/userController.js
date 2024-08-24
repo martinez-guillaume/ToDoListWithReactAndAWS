@@ -46,17 +46,13 @@ const login = async (req, res) => {
 
   try {
     const data = await docClient.query(params).promise();
-    console.log('Login: Data from DynamoDB:', data);
 
     if (data.Items.length > 0) {
-      const user = data.Items[0];
-      console.log('Login: User found:', user);
 
+      const user = data.Items[0];
       const passwordMatch = await bcrypt.compare(password, user.password);
-      console.log('Login: Password match:', passwordMatch);
 
       if (passwordMatch) {
-        console.log('JWT_SECRET:', process.env.JWT_SECRET);
         const secret = process.env.JWT_SECRET;
 
         if (!secret) {

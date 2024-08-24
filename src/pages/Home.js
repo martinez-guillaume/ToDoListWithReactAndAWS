@@ -3,12 +3,13 @@ import { AuthContext } from '../context/AuthContext';
 import Container from 'react-bootstrap/Container';
 import TaskCard from '../components/TaskCard';
 import axios from 'axios';
+import '../App.css'; 
+import pexelsImage from '../pexels-pixabay-414660.jpg';
+
 
 const Home = () => {
   const { user } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
-
-  console.log('Current user:', user);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const fetchTasks = useCallback(async () => {
@@ -31,7 +32,6 @@ const Home = () => {
       }
 
       const data = await response.json();
-      console.log('Fetched tasks:', data);
       setTasks(data);
     } catch (error) {
       console.error('Error fetching tasks:', error);
@@ -40,13 +40,11 @@ const Home = () => {
 
   useEffect(() => {
     if (user) {
-      console.log('useEffect triggered, calling fetchTasks');
       fetchTasks();
     }
   }, [user, fetchTasks]);
 
   const handleTaskDeleted = async (taskId) => {
-    console.log('Delete button clicked for task ID:', taskId);
     try {
       const token = localStorage.getItem('token');
       await axios.delete(`http://localhost:3001/api/tasks/${taskId}`, {

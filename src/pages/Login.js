@@ -7,7 +7,7 @@ import { AuthContext } from '../context/AuthContext';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [setError] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const { login } = useContext(AuthContext); 
 
@@ -19,13 +19,11 @@ const Login = () => {
         email,
         password,
       });
-      console.log('Login response:', response.data);
       
       if (response.data?.token && response.data?.user) {
         login(response.data.token, response.data.user); 
         localStorage.setItem('token', response.data.token); 
         localStorage.setItem('user', JSON.stringify(response.data.user)); 
-        console.log(response.data.token);
         navigate('/'); 
       } else {
         setError('Invalid login attempt');

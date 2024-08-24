@@ -10,12 +10,13 @@ import LoginForm from './pages/Login';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute'; 
 import EditTask from './pages/EditTask';
+import SplashScreen from './pages/SplashScreen';
 
 function App() {
   return (
      <Router>
        <AuthProvider>
-      <div>
+       <div className="App">
         <NavigationBar />
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
@@ -24,6 +25,7 @@ function App() {
           <Route path="/edit-task/:id" element={<ProtectedRoute><EditTask /></ProtectedRoute>} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/splash" element={<SplashScreen />} />
         </Routes>
       </div>
       </AuthProvider>

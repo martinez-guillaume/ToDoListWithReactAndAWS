@@ -19,7 +19,6 @@ const getTasks = async (req, res) => {
   try {
     const data = await dynamoDB.scan(params).promise();
     if (data.Items && Array.isArray(data.Items)) {
-      console.log('Tasks Data:', data.Items);
       res.json(data.Items);
     } else {
       console.error('Unexpected data format:', data);
@@ -101,7 +100,6 @@ const updateTask = async (req, res) => {
 
 const getTaskById = async (req, res) => {
   const { id } = req.params;
-  console.log('Fetching task with ID:', id);
 
   const params = {
     TableName: 'Tasks',
@@ -116,7 +114,6 @@ const getTaskById = async (req, res) => {
       res.status(404).json({ error: 'Task not found' });
     }
   } catch (err) {
-    console.error('Error fetching task:', err);
     res.status(500).json({ error: 'Failed to retrieve task' });
   }
 };
@@ -124,7 +121,6 @@ const getTaskById = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   const { id } = req.params;
-  console.log(`Attempting to delete task with ID: ${id}`);
 
   if (!id) {
     return res.status(400).json({ error: 'Task ID is required' });
