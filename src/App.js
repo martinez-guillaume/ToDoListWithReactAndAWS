@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
@@ -11,6 +12,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute'; 
 import EditTask from './pages/EditTask';
 import SplashScreen from './pages/SplashScreen';
+
 
 function App() {
   return (

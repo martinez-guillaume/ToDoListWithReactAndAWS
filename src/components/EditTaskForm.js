@@ -212,10 +212,11 @@ const EditTaskForm = () => {
           onChange={handleChange}
         />
       </Form.Group>
-
+      <div className="flex justify-center">
       <Button variant="primary" type="submit">
         Sauvegarder
       </Button>
+      </div>
     </Form>
   );
 };

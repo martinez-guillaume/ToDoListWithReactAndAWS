@@ -36,7 +36,7 @@ const TaskCard = ({ task, onDelete }) => {
   return (
     <Card border={borderColor} style={{ width: '18rem' }}>
       <Card.Body>
-        <Card.Title>{task.Title}</Card.Title>
+        <Card.Title className="text-center pb-2">{task.Title}</Card.Title>
         <Card.Text>
           {task.Description}
         </Card.Text>

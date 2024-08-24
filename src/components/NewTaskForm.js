@@ -165,10 +165,11 @@ const NewTaskForm = () => {
           onChange={handleChange}
         />
       </Form.Group>
-      
+      <div className="flex justify-center">
       <Button variant="primary" type="submit">
         Valider
       </Button>
+      </div>
     </Form>
   );
 };
