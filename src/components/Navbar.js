@@ -23,7 +23,8 @@ const NavigationBar = () => {
           <Nav className="flex-grow-1">
             <Nav.Link as={Link} to="/">Accueil</Nav.Link>
             <Nav.Link as={Link} to="/newtask">Nouvelle tâche</Nav.Link>
-            <Nav.Link as={Link} to="/connexion">À propos</Nav.Link>
+            <Nav.Link as={Link} to="/completed-tasks">Voir les tâches terminées</Nav.Link>
+            <Nav.Link as={Link} to="/about-me">À propos</Nav.Link>
           </Nav>
           <Nav className="ml-auto flex">
             {!isAuthenticated && <Nav.Link as={Link} to="/register" className="mr-4">S'inscrire</Nav.Link>}

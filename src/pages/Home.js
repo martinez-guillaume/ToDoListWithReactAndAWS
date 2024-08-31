@@ -4,7 +4,6 @@ import Container from 'react-bootstrap/Container';
 import TaskCard from '../components/TaskCard';
 import axios from 'axios';
 import '../App.css'; 
-import pexelsImage from '../pexels-pixabay-414660.jpg';
 
 
 const Home = () => {
@@ -15,6 +14,7 @@ const Home = () => {
   const fetchTasks = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
+
       if (!token) {
         throw new Error('No token found');
       }
@@ -60,18 +60,48 @@ const Home = () => {
     }
   };
 
+  const handleTaskCompleted = async (taskId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.patch(`http://localhost:3001/api/tasks/${taskId}/completion`, 
+      {
+        completed: true,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log('Task marked as completed');
+      setTasks(tasks.filter(task => task.TaskID !== taskId));
+    } catch (error) {
+      console.error('Error marking task as completed:', error);
+    }
+  };
+
   return (
     <Container>
       <h1 className="text-center py-10">Bienvenue dans Votre Espace de Tâches</h1>
       <div className="flex justify-center pl-8 pb-10">
-      <div className="flex flex-wrap gap-4">
-        {tasks.map(task => (
-          <TaskCard key={task.TaskID} task={task} onDelete={() => handleTaskDeleted(task.TaskID)}/>
-        ))}
-      </div>
+        <div className="flex flex-wrap gap-4">
+          {tasks.length > 0 ? (
+            tasks.map(task => (
+              <TaskCard 
+                key={task.TaskID} 
+                task={task} 
+                onDelete={() => handleTaskDeleted(task.TaskID)} 
+                onComplete={() => handleTaskCompleted(task.TaskID)} 
+              />
+            ))
+          ) : (
+            <p>Aucune tâche pour le moment.</p>
+          )}
+        </div>
       </div>
     </Container>
   );
 };
+  
 
 export default Home;

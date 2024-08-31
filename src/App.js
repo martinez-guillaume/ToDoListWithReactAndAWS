@@ -12,6 +12,8 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute'; 
 import EditTask from './pages/EditTask';
 import SplashScreen from './pages/SplashScreen';
+import CompletedTasks from './pages/CompletedTasks';
+import About from './pages/About';
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
           <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/newtask" element={<ProtectedRoute><NewTask /></ProtectedRoute>}/>
           <Route path="/edit-task/:id" element={<ProtectedRoute><EditTask /></ProtectedRoute>} />
+          <Route path="/completed-tasks" element={<ProtectedRoute><CompletedTasks /></ProtectedRoute>} />
+          <Route path="/about-me" element={<ProtectedRoute><About /></ProtectedRoute>} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/splash" element={<SplashScreen />} />

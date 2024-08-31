@@ -8,11 +8,14 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient({
 
 const getTasks = async (req, res) => {
   const userId = req.user.id;
+  const completed = req.query.completed === false; 
+
   const params = {
     TableName: 'Tasks',
-    FilterExpression: 'UserID = :userId',
+    FilterExpression: 'UserID = :userId AND CompletionStatus = :completed',
     ExpressionAttributeValues: {
       ':userId': userId,
+      ':completed': completed,
     },
   };
 
@@ -140,5 +143,58 @@ const deleteTask = async (req, res) => {
   }
 };
 
-module.exports = { getTasks, addTask, updateTask, getTaskById, deleteTask };
+const updateTaskCompletionStatus = async (req, res) => {
+  const { id } = req.params;
+
+  const updateExpression = "SET CompletionStatus = :completed";
+  const expressionAttributeValues = {
+    ":completed": true, 
+  };
+
+  const params = {
+    TableName: 'Tasks',
+    Key: { TaskID: id },
+    UpdateExpression: updateExpression,
+    ExpressionAttributeValues: expressionAttributeValues,
+    ReturnValues: "UPDATED_NEW", 
+  };
+
+  try {
+    await dynamoDB.update(params).promise();
+    res.status(200).json({ message: 'Task marked as completed' }); 
+  } catch (error) {
+    console.error('Error updating task completion status:', error);
+    res.status(500).json({ error: 'Failed to update task completion status' });
+  }
+};
+
+const getCompletedTasks = async (req, res) => {
+
+  const userId = req.user.id;
+  const completed = req.query.completed === false; 
+
+  const params = {
+    TableName: 'Tasks',
+    FilterExpression: 'UserID = :userId AND CompletionStatus = :completed',
+    ExpressionAttributeValues: {
+      ':userId': userId,
+      ':completed': !completed,
+    },
+  };
+
+  try {
+    const data = await dynamoDB.scan(params).promise();
+    if (data.Items && Array.isArray(data.Items)) {
+      res.json(data.Items);
+    } else {
+      console.error('Unexpected data format:', data);
+      res.status(500).json({ error: 'Unexpected data format' });
+    }
+  } catch (err) {
+    console.error('Error fetching tasks:', err);
+    res.status(500).json({ error: 'Failed to retrieve tasks' });
+  }
+};
+
+module.exports = { getTasks, addTask, updateTask, getTaskById, deleteTask, updateTaskCompletionStatus, getCompletedTasks };
 
