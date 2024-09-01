@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom'; 
+import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const NewTaskForm = () => {
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    priority: 'Moyen',
-    date: '',
-    time: '',
+    title: "",
+    description: "",
+    priority: "Moyen",
+    date: "",
+    time: "",
     completed: false,
-    assignee: '',
-    tags: '',
+    assignee: "",
+    tags: "",
   });
 
   const navigate = useNavigate();
@@ -20,47 +20,47 @@ const NewTaskForm = () => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form data submitted: ', formData);
+    console.log("Form data submitted: ", formData);
 
     try {
-      const token = localStorage.getItem('token'); 
+      const token = localStorage.getItem("token");
       if (!token) {
-        throw new Error('No token found');
+        throw new Error("No token found");
       }
 
-      const response = await fetch('http://localhost:3001/api/tasks', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3001/api/tasks", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        console.log('Task added successfully');
+        console.log("Task added successfully");
         setFormData({
-          title: '',
-          description: '',
-          priority: 'Moyen',
-          date: '',
-          time: '',
+          title: "",
+          description: "",
+          priority: "Moyen",
+          date: "",
+          time: "",
           completed: false,
-          assignee: '',
-          tags: '',
-        }); 
-        navigate('/');
+          assignee: "",
+          tags: "",
+        });
+        navigate("/");
       } else {
-        console.error('Failed to add task');
+        console.error("Failed to add task");
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -98,7 +98,7 @@ const NewTaskForm = () => {
             type="radio"
             id={"inline-radio-1"}
             value="Élevé"
-            checked={formData.priority === 'Élevé'}
+            checked={formData.priority === "Élevé"}
             onChange={handleChange}
           />
           <Form.Check
@@ -108,7 +108,7 @@ const NewTaskForm = () => {
             type="radio"
             id={"inline-radio-2"}
             value="Moyen"
-            checked={formData.priority === 'Moyen'}
+            checked={formData.priority === "Moyen"}
             onChange={handleChange}
           />
           <Form.Check
@@ -118,7 +118,7 @@ const NewTaskForm = () => {
             type="radio"
             id={"inline-radio-3"}
             value="Basse"
-            checked={formData.priority === 'Basse'}
+            checked={formData.priority === "Basse"}
             onChange={handleChange}
           />
         </div>
@@ -166,13 +166,12 @@ const NewTaskForm = () => {
         />
       </Form.Group>
       <div className="flex justify-center">
-      <Button variant="primary" type="submit">
-        Valider
-      </Button>
+        <Button variant="primary" type="submit">
+          Valider
+        </Button>
       </div>
     </Form>
   );
 };
 
 export default NewTaskForm;
-

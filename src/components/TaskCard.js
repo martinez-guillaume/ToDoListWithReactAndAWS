@@ -11,15 +11,15 @@
 //   const priority = task.Priority ? task.Priority.trim().toLowerCase() : 'basse';
 
 //   // Couleur de bordure en fonction de la priorité
-//   const borderColor = 
-//     priority === 'élevé' || priority === 'elevé' ? 'danger' : 
-//     priority === 'moyen' ? 'warning' : 
+//   const borderColor =
+//     priority === 'élevé' || priority === 'elevé' ? 'danger' :
+//     priority === 'moyen' ? 'warning' :
 //     'success'; // Valeur par défaut pour 'basse'
 
 //   // Formatage de la date et de l'heure
 //   const dateTime = new Date(task.DateTime);
 //   const formattedDate = dateTime.toLocaleDateString();
-//   const formattedTime = dateTime.toLocaleTimeString(); 
+//   const formattedTime = dateTime.toLocaleTimeString();
 
 //   // Fonction de navigation vers la page d'édition
 //   const handleEditClick = () => {
@@ -77,28 +77,29 @@
 
 // export default TaskCard;
 
-
-import React from 'react';
-import Card from 'react-bootstrap/Card';
-import { Button } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import Card from "react-bootstrap/Card";
+import { Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const TaskCard = ({ task, onDelete, onComplete, isCompleted }) => {
   const navigate = useNavigate();
-  const priority = task.Priority ? task.Priority.trim().toLowerCase() : 'basse';
+  const priority = task.Priority ? task.Priority.trim().toLowerCase() : "basse";
 
   // Couleur de bordure en fonction de la priorité
-  const borderColor = 
-    priority === 'élevé' || priority === 'elevé' ? 'danger' : 
-    priority === 'moyen' ? 'warning' : 
-    'success'; // Valeur par défaut pour 'basse'
+  const borderColor =
+    priority === "élevé" || priority === "elevé"
+      ? "danger"
+      : priority === "moyen"
+      ? "warning"
+      : "success"; // Valeur par défaut pour 'basse'
 
   // Formatage de la date et de l'heure
   const dateTime = new Date(task.DateTime);
   const formattedDate = dateTime.toLocaleDateString();
-  const formattedTime = dateTime.toLocaleTimeString(); 
+  const formattedTime = dateTime.toLocaleTimeString();
 
   // Fonction de navigation vers la page d'édition
   const handleEditClick = () => {
@@ -107,25 +108,23 @@ const TaskCard = ({ task, onDelete, onComplete, isCompleted }) => {
 
   // Appel de la fonction onDelete passée en props
   const handleDeleteClick = () => {
-    if (typeof onDelete === 'function') {
+    if (typeof onDelete === "function") {
       onDelete();
     }
   };
 
   // Fonction de complétion du statut de la tache (terminer ou pas)
   const handleCompleteClick = async () => {
-    if (typeof onComplete === 'function') {
+    if (typeof onComplete === "function") {
       onComplete(task.TaskID);
     }
   };
 
   return (
-    <Card border={borderColor} style={{ width: '18rem' }}>
+    <Card border={borderColor} style={{ width: "18rem", borderWidth: "2px" }}>
       <Card.Body>
         <Card.Title className="text-center pb-2">{task.Title}</Card.Title>
-        <Card.Text>
-          {task.Description}
-        </Card.Text>
+        <Card.Text>{task.Description}</Card.Text>
         <Card.Text>
           <strong>Priorité:</strong> {task.Priority}
         </Card.Text>
@@ -138,10 +137,22 @@ const TaskCard = ({ task, onDelete, onComplete, isCompleted }) => {
         <div className="d-flex justify-content-between mt-2">
           {!isCompleted && (
             <>
-              <Button variant="success" className="me-2" onClick={handleCompleteClick}>
-                Terminé <FontAwesomeIcon icon={faCheck} style={{ paddingLeft: '10px' }} />
+              <Button
+                variant="success"
+                className="me-2"
+                onClick={handleCompleteClick}
+              >
+                Terminé{" "}
+                <FontAwesomeIcon
+                  icon={faCheck}
+                  style={{ paddingLeft: "10px" }}
+                />
               </Button>
-              <Button variant="warning" className="me-2" onClick={handleEditClick}>
+              <Button
+                variant="warning"
+                className="me-2"
+                onClick={handleEditClick}
+              >
                 <FontAwesomeIcon icon={faEdit} />
               </Button>
             </>
@@ -159,4 +170,3 @@ const TaskCard = ({ task, onDelete, onComplete, isCompleted }) => {
 };
 
 export default TaskCard;
-

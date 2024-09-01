@@ -1,39 +1,39 @@
-import React, { useState, useCallback, useContext } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
-import { AuthContext } from '../context/AuthContext';
-import pictureMultipleScreen from '../pictureMultipleScreen.png'; 
+import React, { useState, useCallback, useContext } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Form, Button } from "react-bootstrap";
+import { AuthContext } from "../context/AuthContext";
+import pictureMultipleScreen from "../pictureMultipleScreen.png";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext); 
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
-    setError(''); 
+    setError("");
     try {
-      const response = await axios.post('http://localhost:3001/login', {
+      const response = await axios.post("http://localhost:3001/login", {
         email,
         password,
       });
-      
+
       if (response.data?.token && response.data?.user) {
-        login(response.data.token, response.data.user); 
-        localStorage.setItem('token', response.data.token); 
-        localStorage.setItem('user', JSON.stringify(response.data.user)); 
-        navigate('/'); 
+        login(response.data.token, response.data.user);
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        navigate("/");
       } else {
-        setError('Invalid login attempt');
+        setError("Invalid login attempt");
       }
     } catch (err) {
       if (err.response && err.response.status === 401) {
-        setError('Invalid credentials'); 
+        setError("Invalid credentials");
       } else {
-        setError('An error occurred. Please try again later.'); 
+        setError("An error occurred. Please try again later.");
       }
     }
   });
@@ -43,7 +43,7 @@ const Login = () => {
       {/* Formulaire */}
       <div className="w-1/2 p-8 flex items-center justify-center">
         <Form onSubmit={handleSubmit} className="w-full max-w-sm mx-auto">
-        <h1 className="text-center pb-5 text-md">Connexion</h1>
+          <h1 className="text-center pb-5 text-md">Connexion</h1>
           <div className="mb-3">
             <Form.Label>Email</Form.Label>
             <Form.Control
@@ -78,11 +78,11 @@ const Login = () => {
 
       {/* Image */}
       <div className="flex items-center justify-center">
-      <img
-    src={pictureMultipleScreen}  
-    alt="Description de l'image"
-    className="object-cover w-3/4 h-auto"
-  />
+        <img
+          src={pictureMultipleScreen}
+          alt="Description de l'image"
+          className="object-cover w-3/4 h-auto"
+        />
       </div>
     </div>
   );
