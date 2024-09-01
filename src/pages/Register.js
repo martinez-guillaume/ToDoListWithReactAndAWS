@@ -1,14 +1,14 @@
-import axios from 'axios';
-import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import pictureRegisterCalendar from '../pictureRegisterCalendar.png'; 
+import axios from "axios";
+import React, { useState } from "react";
+import { Form, Button } from "react-bootstrap";
+import pictureRegisterCalendar from "../pictureRegisterCalendar.png";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const handleChange = (e) => {
@@ -22,24 +22,30 @@ const RegisterForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
-      alert('Les mots de passe ne correspondent pas');
+      alert("Les mots de passe ne correspondent pas");
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:3001/register', formData);
-      console.log('Response from server:', response.data);
+      const response = await axios.post(
+        "http://localhost:3001/register",
+        formData
+      );
+      console.log("Response from server:", response.data);
     } catch (error) {
-      console.error('Error:', error.response ? error.response.data : error.message);
+      console.error(
+        "Error:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
-return (
+  return (
     <div className="flex flex-grow pt-10">
       {/* Formulaire d'inscription */}
       <div className="w-1/2 p-8 flex items-center justify-center">
         <Form onSubmit={handleSubmit} className="w-full max-w-sm">
-        <h1 className="text-center pb-5 text-md">Inscription</h1>
+          <h1 className="text-center pb-5 text-md">Inscription</h1>
           <Form.Group className="mb-3" controlId="formBasicUsername">
             <Form.Label>Nom d'utilisateur</Form.Label>
             <Form.Control
@@ -99,13 +105,13 @@ return (
       {/* Image */}
       <div className="w-1/2 flex items-center justify-center">
         <img
-          src={pictureRegisterCalendar} 
+          src={pictureRegisterCalendar}
           alt="Description de l'image"
           className="object-cover w-3/4 h-auto"
         />
       </div>
     </div>
-);
+  );
 };
 
 export default RegisterForm;

@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(true);
     setUser(user);
     navigate('/home');
-    navigate('/newtask'); 
   };
 
   const logout = () => {

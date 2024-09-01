@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Button } from 'react-bootstrap';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useParams, useNavigate } from "react-router-dom";
 
 const EditTaskForm = () => {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    priority: 'Moyen',
-    date: '',
-    time: '',
+    title: "",
+    description: "",
+    priority: "Moyen",
+    date: "",
+    time: "",
     completed: false,
-    assignee: '',
-    tags: '',
+    assignee: "",
+    tags: "",
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -21,35 +21,35 @@ const EditTaskForm = () => {
   useEffect(() => {
     const fetchTaskById = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
-          throw new Error('No token found');
+          throw new Error("No token found");
         }
 
         const response = await fetch(`http://localhost:3001/api/tasks/${id}`, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
 
         if (response.ok) {
           const data = await response.json();
-          const dateTime = data.DateTime || '';
-          const date = dateTime.split('T')[0];
-          const timeWithSeconds = dateTime.split('T')[1]?.split('Z')[0] || '';
-          const time = timeWithSeconds.split(':').slice(0, 2).join(':'); 
+          const dateTime = data.DateTime || "";
+          const date = dateTime.split("T")[0];
+          const timeWithSeconds = dateTime.split("T")[1]?.split("Z")[0] || "";
+          const time = timeWithSeconds.split(":").slice(0, 2).join(":");
 
           setFormData({
-            title: data.Title || '',
-            description: data.Description || '',
-            priority: data.Priority || 'Moyen',
+            title: data.Title || "",
+            description: data.Description || "",
+            priority: data.Priority || "Moyen",
             date: date,
-            time: time, 
+            time: time,
             completed: data.CompletionStatus || false,
-            assignee: data.Assignee || '',
-            tags: data.Tags ? data.Tags.join(', ') : '',
+            assignee: data.Assignee || "",
+            tags: data.Tags ? data.Tags.join(", ") : "",
           });
         } else {
           const text = await response.text();
@@ -69,43 +69,43 @@ const EditTaskForm = () => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form data submitted: ', formData);
+    console.log("Form data submitted: ", formData);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        throw new Error('No token found');
+        throw new Error("No token found");
       }
 
       const response = await fetch(`http://localhost:3001/api/tasks/${id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           ...formData,
           date: formData.date,
           time: formData.time,
           DateTime: `${formData.date}T${formData.time}:00Z`,
-          Tags: formData.tags.split(',').map(tag => tag.trim()),
+          Tags: formData.tags.split(",").map((tag) => tag.trim()),
         }),
       });
 
       if (response.ok) {
-        console.log('Task updated successfully');
-        navigate('/home'); // Redirige après la mise à jour
+        console.log("Task updated successfully");
+        navigate("/home"); // Redirige après la mise à jour
       } else {
-        console.error('Failed to update task');
+        console.error("Failed to update task");
       }
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -145,7 +145,7 @@ const EditTaskForm = () => {
             type="radio"
             id={"inline-radio-1"}
             value="Élevé"
-            checked={formData.priority === 'Élevé'}
+            checked={formData.priority === "Élevé"}
             onChange={handleChange}
           />
           <Form.Check
@@ -155,7 +155,7 @@ const EditTaskForm = () => {
             type="radio"
             id={"inline-radio-2"}
             value="Moyen"
-            checked={formData.priority === 'Moyen'}
+            checked={formData.priority === "Moyen"}
             onChange={handleChange}
           />
           <Form.Check
@@ -165,7 +165,7 @@ const EditTaskForm = () => {
             type="radio"
             id={"inline-radio-3"}
             value="Basse"
-            checked={formData.priority === 'Basse'}
+            checked={formData.priority === "Basse"}
             onChange={handleChange}
           />
         </div>
@@ -213,9 +213,9 @@ const EditTaskForm = () => {
         />
       </Form.Group>
       <div className="flex justify-center">
-      <Button variant="primary" type="submit">
-        Sauvegarder
-      </Button>
+        <Button variant="primary" type="submit">
+          Sauvegarder
+        </Button>
       </div>
     </Form>
   );
