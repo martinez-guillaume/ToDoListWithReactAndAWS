@@ -6,7 +6,6 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
 } from "react-router-dom";
 import Home from "./pages/Home";
 import NewTask from "./pages/NewTask";
@@ -16,7 +15,7 @@ import LoginForm from "./pages/Login";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EditTask from "./pages/EditTask";
-import SplashScreen from "./pages/SplashScreen";
+import Landing from "./pages/Landing";
 import CompletedTasks from "./pages/CompletedTasks";
 import About from "./pages/About";
 
@@ -27,7 +26,8 @@ function App() {
         <div className="App">
           <NavigationBar />
           <Routes>
-            <Route path="/" element={<Navigate to="/home" />} />
+           
+
             <Route
               path="/home"
               element={
@@ -84,7 +84,23 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/splash" element={<SplashScreen />} />
+             <Route
+              path="/"
+              element={
+                <ProtectedRoute redirectTo="/welcome">
+                  <Landing />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/welcome"
+              element={
+                <ProtectedRoute redirectTo="/welcome">
+                  <Landing />
+                </ProtectedRoute>
+              }
+            />
+
           </Routes>
         </div>
       </AuthProvider>

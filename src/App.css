@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.icon-gray-custom {
+  color: #908E8A;
+}
+
+
 .App {
   min-height: 100vh;
   background-color: #ffdee9;
