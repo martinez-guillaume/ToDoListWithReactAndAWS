@@ -9,7 +9,6 @@ const Home = () => {
   const { user } = useContext(AuthContext);
   const [tasks, setTasks] = useState([]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const fetchTasks = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
@@ -35,7 +34,7 @@ const Home = () => {
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user) {

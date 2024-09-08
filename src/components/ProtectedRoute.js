@@ -7,19 +7,20 @@ const ProtectedRoute = ({ children, redirectTo }) => {
 
   if (
     isAuthenticated &&
-    (redirectTo === "/login" || redirectTo === "/register")
+    (redirectTo === "/login" || redirectTo === "/register" || redirectTo === "/welcome")
   ) {
-    // Si l'utilisateur est authentifié et essaie d'accéder à une page publique (login/register)
-    return <Navigate to="/home" />; // Redirection vers la page d'accueil
+    // Si l'utilisateur est authentifié et essaie d'accéder à une page publique (login/register/welcome)
+    return <Navigate to="/home" />; // Redirection vers la page home
   }
 
   if (
     !isAuthenticated &&
     redirectTo !== "/login" &&
-    redirectTo !== "/register"
+    redirectTo !== "/register" &&
+    redirectTo !== "/welcome"
   ) {
     // Si l'utilisateur n'est pas authentifié et essaie d'accéder à une page protégée
-    return <Navigate to="/login" />;
+    return <Navigate to="/welcome" />;
   }
   return children; //
 };

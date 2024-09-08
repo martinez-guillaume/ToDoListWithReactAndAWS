@@ -1,8 +1,5 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import React from "react";
 import Container from "react-bootstrap/Container";
-import TaskCard from "../components/TaskCard";
-import axios from "axios";
 import "../App.css";
 
 const About = () => {

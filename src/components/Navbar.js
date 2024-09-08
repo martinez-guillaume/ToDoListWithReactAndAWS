@@ -17,9 +17,14 @@ const NavigationBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="flex-grow-1">
+            {!isAuthenticated && (
+              <Nav.Link as={Link} to="/welcome" className="mr-4">
+                Bienvenue
+              </Nav.Link>
+            )}
             {isAuthenticated && (
               <>
-                <Nav.Link as={Link} to="/">
+                <Nav.Link as={Link} to="/home">
                   Accueil
                 </Nav.Link>
                 <Nav.Link as={Link} to="/newtask">
@@ -35,16 +40,17 @@ const NavigationBar = () => {
             )}
           </Nav>
           <Nav className="ml-auto flex">
-            {!isAuthenticated && (
-              <Nav.Link as={Link} to="/register" className="mr-4">
-                S'inscrire
-              </Nav.Link>
-            )}
-            {!isAuthenticated && (
-              <Nav.Link as={Link} to="/login">
+          {!isAuthenticated && (
+              <Nav.Link as={Link} to="/login" className="mr-4">
                 Connexion
               </Nav.Link>
             )}
+            {!isAuthenticated && (
+              <Nav.Link as={Link} to="/register" >
+                S'inscrire
+              </Nav.Link>
+            )}
+           
             {isAuthenticated && (
               <Nav.Link as={Link} to="/" onClick={logout}>
                 Se déconnecter

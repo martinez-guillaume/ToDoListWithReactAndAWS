@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import pictureRegisterCalendar from "../pictureRegisterCalendar.png";
+import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -41,11 +42,11 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="flex flex-grow pt-10">
+    <div className="flex flex-grow pt-4">
       {/* Formulaire d'inscription */}
-      <div className="w-1/2 p-8 flex items-center justify-center">
+      <div className="w-1/2 px-3 flex items-center justify-center ml-20">
         <Form onSubmit={handleSubmit} className="w-full max-w-sm">
-          <h1 className="text-center pb-5 text-md">Inscription</h1>
+          <h1 className="text-center pb-4 text-md">Inscription</h1>
           <Form.Group className="mb-3" controlId="formBasicUsername">
             <Form.Label>Nom d'utilisateur</Form.Label>
             <Form.Control
@@ -99,11 +100,35 @@ const RegisterForm = () => {
               S'inscrire
             </Button>
           </div>
+          {/* Texte supplémentaire sous le bouton */}
+          <div className=" mt-4 text-xs">
+            <p>
+              En continuant vous acceptez les{" "}
+              <Link to="/terms" className="text-black hover:underline">
+                {" "}
+                Conditions générales{" "}
+              </Link>
+              et la{" "}
+              <Link to="/privacy" className="text-black hover:underline">
+                {" "}
+                Politique de confidentialité{" "}
+              </Link>{" "}
+              de To Do List.
+            </p>
+            <hr className=" border-gray-300" />
+            <p className="text-center">
+              Déjà inscrit ?{" "}
+              <Link to="/login" className="text-black hover:underline">
+                {" "}
+                Connectez-vous
+              </Link>
+            </p>
+          </div>
         </Form>
       </div>
 
       {/* Image */}
-      <div className="w-1/2 flex items-center justify-center">
+      <div className="w-1/2 flex items-center justify-center mr-20">
         <img
           src={pictureRegisterCalendar}
           alt="Description de l'image"
