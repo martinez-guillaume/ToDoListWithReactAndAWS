@@ -10,22 +10,22 @@ const Footer = () => {
         </div>
         <div>
           <a href='https://www.linkedin.com/in/guillaume-martinez-232602259/' className='me-4 text-reset'>
-            <MDBIcon fab icon="linkedin" />
+            <MDBIcon fab icon="linkedin" className='icon-gray-custom' aria-label="LinkedIn" />
           </a>
           <a href='https://github.com/martinez-guillaume' className='me-4 text-reset'>
-            <MDBIcon fab icon="github" />
+            <MDBIcon fab icon="github" className='icon-gray-custom' aria-label="GitHub"/>
           </a>
         </div>
       </section>
 
       <section className=''>
-        <MDBContainer className='text-center text-md-start mt-5'>
+        <MDBContainer className='text-center text-md-start mt-5 '>
           <MDBRow className='mt-3'>
             <MDBCol md="3" lg="4" xl="3" className='mx-auto mb-4'>
             <div className='flex items-baseline'>
-            <MDBIcon icon="gem" />
-              <h6 className='text-uppercase fw-bold mb-4 ml-2'>
-                
+            <MDBIcon/>
+              <i className="fas fa-gem me-3"></i>
+              <h6 className='text-uppercase fw-bold mb-4'>
                  To Do List
               </h6>
               </div>
@@ -78,7 +78,7 @@ const Footer = () => {
             </MDBCol>
 
             <MDBCol md="4" lg="3" xl="3" className='mx-auto mb-md-0 mb-4'>
-              <h6 className='text-uppercase fw-bold mb-4'>To Do List</h6>
+              <h6 className='text-uppercase fw-bold mb-4 '>To Do List</h6>
               <p>
                  À propos
               </p>
@@ -94,7 +94,7 @@ const Footer = () => {
         </MDBContainer>
       </section>
 
-      <div className='text-center p-4'>
+      <div className='text-center p-4' >
         © To Do List inc  
         <a className='text-reset fw-bold pl-2' href='https://mdbootstrap.com/' >
          guillaume.m.developer@gmail.com

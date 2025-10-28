@@ -12,11 +12,7 @@ services:
       - localstack-data:/var/lib/localstack
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
-volumes:
-  localstack-data:
-
-
+    localstack-data:
 
 
 
